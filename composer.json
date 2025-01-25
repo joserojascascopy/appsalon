@@ -1,0 +1,17 @@
+{
+    "name": "joser/appsalon",
+    "autoload": {
+        "psr-4": {
+            "Model\\": "./models",
+            "Controllers\\": "./controllers",
+            "MVC\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "joserojascascopy",
+            "email": "joserojascascopy@hotmail.com"
+        }
+    ],
+    "require": {}
+}
