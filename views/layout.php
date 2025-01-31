@@ -9,7 +9,12 @@
 </head>
 
 <body>
-    <h1>Hola Mundo</h1>
+    <div class="app-container">
+        <div class="hero"></div>
+        <div class="app">
+            <?php echo $contenido ?>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -31,4 +31,17 @@ class Router {
             echo "ERROR 404. PAGE NOT FOUND";
         }
     }
+
+    public function render($view, $datos = []) {
+        foreach($datos as $key => $value) {
+            $$key = $value;
+        }
+
+        ob_start(); // Almacena en memoria durante un momento...
+        include __DIR__ . "/views/$view.php";
+
+        $contenido = ob_get_clean(); // Limpia el buffer
+
+        include __DIR__ . "/views/layout.php";
+    }
 }

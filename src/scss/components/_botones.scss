@@ -1,0 +1,49 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use "sass:color";
+
+.botones {
+    margin-bottom: 1.5rem;
+    
+    @include m.tablet {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 1rem;
+    }
+
+    .texto-login {
+        text-align: center;
+    }
+}
+
+.boton {
+    background-color: v.$azul;
+    border: none;
+    color: v.$blanco;
+    padding: 1.5rem 3.5rem;
+    transition-property: background-color;
+    transition-duration: .3s;
+    font-size: 2rem;
+    font-weight: bold;
+
+    display: block;
+    width: 100%;
+    text-align: center;
+
+    &:hover {
+        cursor: pointer;
+        background-color: color.adjust(v.$azul, $lightness: -10%);
+    }
+
+    @include m.tablet {
+        width: 30rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.boton-registrarse {
+    display: inline-block;
+}

@@ -1,2 +1,3 @@
-@forward 'base';
-@forward 'layout';
+@use 'base';
+@use 'layout';
+@use 'components';
