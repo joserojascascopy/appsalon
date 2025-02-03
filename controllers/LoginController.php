@@ -1,8 +1,9 @@
 <?php
 
 namespace Controllers;
-use MVC\Router;
 
+use Model\Usuario;
+use MVC\Router;
 
 class LoginController {
     public static function login(Router $router) {
@@ -28,8 +29,16 @@ class LoginController {
     }
 
     public static function create(Router $router) {
-        $router->render('auth/create', [
+        $usuario = new Usuario;
 
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $usuario = new Usuario($_POST);
+
+            debugger($usuario);
+        }
+
+        $router->render('auth/create', [
+            'usuario' => $usuario
         ]);
     }
 }
