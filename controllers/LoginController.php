@@ -30,15 +30,17 @@ class LoginController {
 
     public static function create(Router $router) {
         $usuario = new Usuario;
+        $alertas = Usuario::getErrores();
 
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario = new Usuario($_POST);
 
-            debugger($usuario);
+            $alertas = $usuario->validarNuevaAcc();
         }
 
         $router->render('auth/create', [
-            'usuario' => $usuario
+            'usuario' => $usuario,
+            'alertas' => $alertas
         ]);
     }
 }

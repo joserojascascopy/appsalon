@@ -2,9 +2,8 @@
 
 namespace Model;
 
-class Usuario {
+class Usuario extends ActiveRecord {
     // Base de datos
-    protected static $db;
     protected static $tabla = 'usuario';
     protected static $columnasDB = ['id', 'nombre', 'apellido', 'email', 'password',
     'telefono', 'admin', 'confirmado', 'token'];
@@ -31,7 +30,41 @@ class Usuario {
         $this->token = $args['token'] ?? '';
     }
 
-    public static function setDB($database) {
-        self::$db = $database;
+    // Mensajes de validación para la creación de una nueva cuenta
+
+    public function validarNuevaAcc() {
+        if(!$this->nombre) {
+            self::$alertas['error'][] = 'El nombre es obligatorio';
+        }
+
+        if(!$this->apellido) {
+            self::$alertas['error'][] = 'El apellido es obligatorio';
+        }
+
+        if(!$this->nombre) {
+            self::$alertas['error'][] = 'El nombre es obligatorio';
+        }
+
+        if(!$this->nombre) {
+            self::$alertas['error'][] = 'El nombre es obligatorio';
+        }
+
+        if(!$this->nombre) {
+            self::$alertas['error'][] = 'El nombre es obligatorio';
+        }
+
+        if(!$this->nombre) {
+            self::$alertas['error'][] = 'El nombre es obligatorio';
+        }
+
+        if(!$this->nombre) {
+            self::$alertas['error'][] = 'El nombre es obligatorio';
+        }
+
+        if(!$this->nombre) {
+            self::$alertas['error'][] = 'El nombre es obligatorio';
+        }
+
+        return self::$alertas;
     }
 }
