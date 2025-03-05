@@ -41,29 +41,25 @@ class Usuario extends ActiveRecord {
             self::$alertas['error'][] = 'El apellido es obligatorio';
         }
 
-        if(!$this->nombre) {
-            self::$alertas['error'][] = 'El nombre es obligatorio';
+        if(!$this->telefono) {
+            self::$alertas['error'][] = 'Debes introducir un numero de telefono';
         }
 
-        if(!$this->nombre) {
-            self::$alertas['error'][] = 'El nombre es obligatorio';
+        if(!$this->email) {
+            self::$alertas['error'][] = 'El email es obligatorio';
         }
 
-        if(!$this->nombre) {
-            self::$alertas['error'][] = 'El nombre es obligatorio';
+        if(!$this->password) {
+            self::$alertas['error'][] = 'La contraseña es obligatoria';
         }
 
-        if(!$this->nombre) {
-            self::$alertas['error'][] = 'El nombre es obligatorio';
+        if(strlen($this->password) < 8) {
+            self::$alertas['error'][] = 'La contraseña debe contener al menos 8 caracteres';
         }
 
-        if(!$this->nombre) {
-            self::$alertas['error'][] = 'El nombre es obligatorio';
-        }
-
-        if(!$this->nombre) {
-            self::$alertas['error'][] = 'El nombre es obligatorio';
-        }
+        if(!preg_match('/[A-Z]/', $this->password) && preg_match('/[a-z]/', $this->password)) {
+            self::$alertas['error'][] = 'La contraseña debe tener mayusculas y minusculas';
+        } 
 
         return self::$alertas;
     }
