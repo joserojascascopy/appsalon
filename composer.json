@@ -1,0 +1,21 @@
+{
+    "name": "joser/appsalon",
+    "autoload": {
+        "psr-4": {
+            "Model\\": "./models",
+            "Controllers\\": "./controllers",
+            "MVC\\": "./",
+            "Classes\\": "./classes"
+        }
+    },
+    "authors": [
+        {
+            "name": "joserojascascopy",
+            "email": "joserojascascopy@hotmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
