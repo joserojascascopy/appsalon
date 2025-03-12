@@ -9,6 +9,9 @@ use MVC\Router;
 class LoginController {
     public static function login(Router $router) {
 
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+        }
 
         $router->render('auth/login', [
 
@@ -57,6 +60,14 @@ class LoginController {
                     $email = new Email($usuario->nombre, $usuario->email, $usuario->token);
 
                     $email->enviarConfirmacion();
+
+                    // Crear el usuario (Guardar en la DB)
+
+                    $resultado = $usuario->guardar();
+
+                    if($resultado) {
+                        header('Location: /mensaje');
+                    }
                 }
             }
 
@@ -77,5 +88,37 @@ class LoginController {
             'usuario' => $usuario,
             'alertas' => $alertas
         ]);
+    }
+
+    public static function confirmar(Router $router) {
+        $alertas = Usuario::getAlertas();
+
+        $token = s($_GET['token']);
+
+        $usuario = Usuario::where('token', $token);
+
+        if(empty($usuario)) {
+            // Mostrar mensaje de error
+            $alertas = Usuario::setAlerta('error', 'Token no válido');
+
+        }else {
+            // Modificar a usuario confirmado
+            $usuario->confirmado = '1';
+            // Eliminar token
+            $usuario->token = ''; // htmlspecialchars() está recibiendo un valor null en lugar de una cadena (string), lo cual es un comportamiento obsoleto en versiones recientes de PHP. Por eso le pasamos una cadena vacía.
+            // Actualizar el usuario
+            $usuario->guardar();
+            // Mostrar alerta de exito
+            $alertas = Usuario::setAlerta('exito', 'Usuario confirmado');
+        }
+
+        $router->render('auth/confirmar-cuenta', [
+            'alertas' => $alertas
+        ]);
+    }
+
+    public static function mensaje(Router $router) {
+
+        $router->render('auth/mensaje', []);
     }
 }

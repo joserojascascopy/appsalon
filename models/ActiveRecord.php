@@ -19,6 +19,11 @@ class ActiveRecord {
 
     protected static $alertas = [];
 
+    public static function setAlerta($tipo, $mensaje) {
+        static::$alertas[$tipo][] = $mensaje;
+        return static::$alertas;
+    }
+
     public function guardar() {
         if (isset($this->id) && !$this->id == '') {
             // Actualizar
@@ -167,6 +172,14 @@ class ActiveRecord {
     public static function find($id) {
         // Consulta a la DB por id de la propiedad
         $query = "SELECT * FROM " . static::$tabla . " WHERE id = {$id}";
+        $resultado = self::consultarSQL($query);
+
+        // return $resultado[0];
+        return array_shift($resultado);
+    }
+
+    public static function where($columna, $valor) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE {$columna} = '{$valor}'";
         $resultado = self::consultarSQL($query);
 
         // return $resultado[0];

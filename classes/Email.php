@@ -21,8 +21,8 @@ class Email {
     public $token;
 
     public function __construct($nombre, $email, $token) {
-        $this->email = $email;
         $this->nombre = $nombre;
+        $this->email = $email;
         $this->token = $token;
     }
 
@@ -55,8 +55,6 @@ class Email {
         $mail->Body = $contenido;
 
         // Enviar el email
-        $resultado = $mail->send();
-
-        debugger($resultado);
+        $mail->send();
     }
 }
