@@ -58,13 +58,84 @@ class LoginController {
     }
 
     public static function forgot(Router $router) {
-        $router->render('auth/forgot', [
+        $alertas = Usuario::getAlertas();
 
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $auth = new Usuario($_POST);
+            
+            $alertas = $auth->validarRecuperar();
+
+            if(empty($alertas)) {
+                // Verificar si existe el usuario
+                $usuario = Usuario::where('email', $auth->email);
+                
+                if($usuario && $usuario->confirmado) {
+                    // Actualizar el token
+                    $usuario->generarToken();
+                    // Enviar el correo con el enlace para poder recuperar su contraseña
+                    $email = new Email($usuario->nombre, $usuario->email, $usuario->token);
+
+                    $email->enviarRecuperacion();
+
+                    // Actualizar la base de datos con el nuevo token
+                    $resultado = $usuario->guardar();
+
+                    if($resultado) {
+                        $alertas = Usuario::setAlerta('exito', 'Se ha enviado un correo para poder recuperar su contraseña');
+                    }
+                }else {
+                    $alertas = Usuario::setAlerta('error', 'Usuario no existe o no esta confirmado');
+                }
+            }
+        }
+
+        $router->render('auth/forgot', [
+            'alertas' => $alertas
         ]);
     }
 
-    public static function reset() {
-        echo "Contraseña recuperada";
+    public static function reset(Router $router) {
+        $alertas = Usuario::getAlertas();
+        $error = false;
+
+        $token = $_GET['token'];
+
+        // Buscar usuario por medio del token
+
+        $usuario = Usuario::where('token', $token);
+
+        if(empty($usuario)) {
+            $alertas = Usuario::setAlerta('error', 'Token No Válido');
+            $error = true;
+        }
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $password = new Usuario($_POST);
+
+            $alertas = $password->validarPassword();
+
+            if(empty($alertas)) {
+                // Eliminamos la contraseña anterior
+                $usuario->password = null;
+                // Asignamos la nueva contraseña
+                $usuario->password = $password->password;
+                // Hasheamos la nueva contraseña
+                $usuario->hashPassword();
+                // Eliminamos el token
+                $usuario->token = '';
+                // Actualizamos la base de datos
+                $resultado = $usuario->guardar();
+
+                if($resultado) {
+                    $alertas = Usuario::setAlerta('exito', 'Contraseña reestablecida');
+                }
+            }
+        }
+
+        $router->render('auth/reset-password', [
+            'alertas' => $alertas,
+            'error' => $error
+        ]);
     }
 
     public static function create(Router $router) {

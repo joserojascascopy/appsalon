@@ -57,4 +57,35 @@ class Email {
         // Enviar el email
         $mail->send();
     }
+
+    public function enviarRecuperacion() {
+        // Crear la instancia de PHPMailer
+        $mail = new PHPMailer();
+
+        // Server settings
+        $mail->isSMTP();   
+        $mail->Host = MAIL_HOST;
+        $mail->SMTPAuth = true;
+        $mail->Port = MAIL_PORT;
+        $mail->Username = MAIL_USERNAME;
+        $mail->Password = MAIL_PASSWORD;
+
+        $mail->setFrom('admin@appsalon.com');
+        $mail->addAddress('admin@appsalon.com', 'AppSalon.com');
+
+        //Content
+        $mail->isHTML(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->Subject = 'Reestablecer contraseña';
+
+        $contenido = "<html>";
+        $contenido .= "<p><strong>Hola, " . $this->nombre . "</strong>. Para reestablecer su contraseña haga click en el siguiente enlace.</p>";
+        $contenido .= "<p>Presiona aquí: <a href='http://localhost:3000/resetpassword?token=" . $this->token . "'>Reestablecer Contraseña</a></p>";
+        $contenido .= "</html>";
+
+        $mail->Body = $contenido;
+
+        // Enviar el email
+        $mail->send();
+    }
 }

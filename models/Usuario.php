@@ -107,4 +107,27 @@ class Usuario extends ActiveRecord {
             return true;
         }
     }
+
+    public function validarRecuperar() {
+        if(!$this->email) {
+            self::$alertas['error'][] = 'Debes introducir un correo electronico';
+            return self::$alertas;
+        }
+    }
+
+    public function validarPassword() {
+        if(!$this->password) {
+            self::$alertas['error'][] = 'Debes introducir una nueva contraseña';
+        }
+
+        if(strlen($this->password) < 6) {
+            self::$alertas['error'][] = 'La contraseña debe contener al menos 6 caracteres';
+        }
+
+        if(!preg_match('/[A-Z]/', $this->password) && preg_match('/[a-z]/', $this->password)) {
+            self::$alertas['error'][] = 'La contraseña debe tener mayusculas y minusculas';
+        } 
+
+        return self::$alertas;
+    }
 }
