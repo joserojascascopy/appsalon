@@ -64,6 +64,18 @@ class Usuario extends ActiveRecord {
         return self::$alertas;
     }
 
+    public function validarLogin() {
+        if(!$this->email) {
+            self::$alertas['error'][] = 'El email es obligatorio';
+        }
+        
+        if(!$this->password) {
+            self::$alertas['error'][] = 'La contraseña es obligatoria';
+        }
+
+        return self::$alertas;
+    }
+
     // Revisar si existe un usuario en la DB
     public function findEmail() {
         // Consulta a la DB por el email del usuario
@@ -84,5 +96,15 @@ class Usuario extends ActiveRecord {
 
     public function generarToken() {
         $this->token = uniqid();
+    }
+
+    public function comprobarPasswordAndVerificado($password) {
+        $resultado = password_verify($password, $this->password); // php devuelve true si un string no es null, y false si es null, esta vacio, o no esta vacio pero tiene como valor "0"
+
+        if(!$resultado || !$this->confirmado) {
+            self::$alertas['error'][] = 'Contraseña incorrecta o su cuenta no ha sido verificada';
+        }else {
+            return true;
+        }
     }
 }

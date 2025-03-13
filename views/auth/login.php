@@ -1,10 +1,11 @@
 <h1 class="title">Login</h1>
 <p class="descripcion">Inicia sesión con tus datos</p>
+<?php include_once __DIR__ . '/../templates/alertas.php'; ?>
 <div class="formulario-container">
     <form action="/" class="formulario" method="POST">
         <div class="campo">
             <label for="email">Email:</label>
-            <input type="email" id="email" placeholder="Tú email" name="email">
+            <input type="email" id="email" placeholder="Tú email" name="email" value="<?php echo s($auth->email); ?>">
         </div>
         <div class="campo">
             <label for="password">Contraseña:</label>
@@ -19,4 +20,4 @@
     <div class="acciones">
         <a href="/forgotpassword">¿Olvidaste tu contraseña?</a>
     </div>
-</div
+</div>
