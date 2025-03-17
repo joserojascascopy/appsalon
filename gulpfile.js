@@ -11,12 +11,13 @@ function css() {
 }
 
 function js() {
-    return src('./src/js/**/*.js')
+    return src('src/js/**/*.js')
         .pipe(dest('./public/build/js'));
 }
 
 function watchArchivos() {
     watch('./src/scss/**/*.scss', css);
+    watch('./src/js/**/*.js', js);
 }
 
 exports.css = css;
