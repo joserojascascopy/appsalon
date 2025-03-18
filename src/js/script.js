@@ -1,4 +1,6 @@
 let paso = 1;
+const pasoInicial = 1;
+const pasoFinal = 3;
 
 document.addEventListener('DOMContentLoaded', function() {
     iniciarApp();
@@ -6,6 +8,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function iniciarApp() {
     tabs();
+    paginador(); // Agrega o quita los botones del paginador
+    paginaSiguiente();
+    paginaAnterior();
+}
+
+function tabs() {
+    const botones = document.querySelectorAll('.tabs button');
+
+    botones.forEach(boton => {
+        boton.addEventListener('click', function(e) {
+            paso = parseInt(e.target.dataset.paso);
+            mostrarSeccion();
+            paginador();
+        })
+    })
 }
 
 function mostrarSeccion() {
@@ -19,16 +36,70 @@ function mostrarSeccion() {
     // Seleccionar la seccion con el paso
     const seccion = document.querySelector(`#paso-${paso}`);
     seccion.classList.add('mostrar');
+
+    // Quita la clase de actual al boton anterior
+    const botonAnterior = document.querySelector('.actual');
+
+    if(botonAnterior) {
+        botonAnterior.classList.remove('actual');
+    }
+
+    // Resalta el boton actual
+
+    const botonActual = document.querySelector(`[data-paso="${paso}"]`);
+
+    botonActual.classList.add('actual');
 }
 
-function tabs() {
-    const botones = document.querySelectorAll('.tabs button');
+// function resaltarBoton(e) {
+//     let boton = e.target;
+//     const botonAnterior = document.querySelector('.actual');
 
-    botones.forEach(boton => {
-        boton.addEventListener('click', function(e) {
-            paso = parseInt(e.target.dataset.paso);
+//     if(botonAnterior) {
+//         botonAnterior.classList.remove('actual');
+//     }
 
-            mostrarSeccion();
-        })
+//     boton.classList.add('actual');
+// }
+
+function paginador() {
+    const siguiente = document.querySelector('#siguiente');
+    const anterior = document.querySelector('#anterior');
+
+    if(paso === 1) {
+        anterior.classList.add('ocultar');
+        siguiente.classList.remove('ocultar');
+    }else if(paso === 3) {
+        anterior.classList.remove('ocultar');
+        siguiente.classList.add('ocultar')
+    }else {
+        siguiente.classList.remove('ocultar');
+        anterior.classList.remove('ocultar');
+    }
+
+    mostrarSeccion();
+}
+
+function paginaAnterior() {
+    const paginaAnterior = document.querySelector('#anterior');
+
+    paginaAnterior.addEventListener('click', function() {
+        if(paso <= pasoInicial) return;
+
+        paso--;
+
+        paginador();
+    })
+}
+
+function paginaSiguiente() {
+    const paginaSiguiente = document.querySelector('#siguiente');
+
+    paginaSiguiente.addEventListener('click', function() {
+        if(paso >= pasoFinal) return;
+
+        paso++;
+
+        paginador();
     })
 }

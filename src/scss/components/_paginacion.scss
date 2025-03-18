@@ -11,3 +11,7 @@
         margin-bottom: 1rem;
     }
 }
+
+.ocultar {
+    visibility: hidden; // Oculta, si hay otro elemento, ese elemento no ocupa la posición
+}
