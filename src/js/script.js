@@ -19,6 +19,7 @@ function tabs() {
     botones.forEach(boton => {
         boton.addEventListener('click', function(e) {
             paso = parseInt(e.target.dataset.paso);
+            resaltarBoton();
             mostrarSeccion();
             paginador();
         })
@@ -37,15 +38,28 @@ function mostrarSeccion() {
     const seccion = document.querySelector(`#paso-${paso}`);
     seccion.classList.add('mostrar');
 
+    // // Quita la clase de actual al boton anterior
+    // const botonAnterior = document.querySelector('.actual');
+
+    // if(botonAnterior) {
+    //     botonAnterior.classList.remove('actual');
+    // }
+
+    // // Resalta el boton actual
+
+    // const botonActual = document.querySelector(`[data-paso="${paso}"]`);
+
+    // botonActual.classList.add('actual');
+}
+
+function resaltarBoton() {
     // Quita la clase de actual al boton anterior
     const botonAnterior = document.querySelector('.actual');
 
     if(botonAnterior) {
         botonAnterior.classList.remove('actual');
     }
-
     // Resalta el boton actual
-
     const botonActual = document.querySelector(`[data-paso="${paso}"]`);
 
     botonActual.classList.add('actual');
@@ -78,6 +92,7 @@ function paginador() {
     }
 
     mostrarSeccion();
+    resaltarBoton();
 }
 
 function paginaAnterior() {
