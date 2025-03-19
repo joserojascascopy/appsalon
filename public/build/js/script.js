@@ -2,6 +2,13 @@ let paso = 1;
 const pasoInicial = 1;
 const pasoFinal = 3;
 
+const cita = {
+    nombre: '',
+    fecha: '',
+    hora: '',
+    servicios: []
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     iniciarApp();
 });
@@ -11,6 +18,8 @@ function iniciarApp() {
     paginador(); // Agrega o quita los botones del paginador
     paginaSiguiente();
     paginaAnterior();
+    
+    consultarAPI();
 }
 
 function tabs() {
@@ -117,4 +126,73 @@ function paginaSiguiente() {
 
         paginador();
     })
+}
+
+async function consultarAPI() {
+
+    try {
+        const url = 'http://localhost:3000/api/servicios';
+        const resultado = await fetch(url);
+        const servicios = await resultado.json();
+
+        mostrarServicios(servicios);
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function mostrarServicios(servicios) {
+    servicios.forEach(servicio => {
+        const {id, nombre, precio} = servicio; // Destructuring
+
+        const nombreServicio = document.createElement('P');
+        nombreServicio.classList.add('nombre-servicio');
+        nombreServicio.textContent = nombre;
+
+        const precioServicio = document.createElement('P');
+        precioServicio.classList.add('precio-servicio');
+        precioServicio.textContent = '$' + precio;
+
+        const servicioDiv = document.createElement('DIV');
+        servicioDiv.classList.add('servicio');
+        servicioDiv.dataset.idServicio = id;
+        servicioDiv.onclick = function() { // Al hacer click nos ejecuta la funcion seleccionarServicio(), y le pasamos el objeto del servicio clickeado
+            seleccionarServicio(servicio);
+        };
+
+        servicioDiv.appendChild(nombreServicio);
+        servicioDiv.appendChild(precioServicio);
+
+        document.querySelector('#servicios').appendChild(servicioDiv);
+    })
+}
+
+function seleccionarServicio(servicio) {
+    const {id} = servicio;
+    const {servicios} = cita;
+    const divServicio = document.querySelector(`[data-id-servicio="${id}"]`)
+
+    // Comprobar si un servicio ya fue agregado
+    if(!servicios.some(servicioAgregado => servicioAgregado.id === id )) {
+        // Agregarlo
+        cita.servicios = [...servicios, servicio];
+    
+        if(!divServicio.classList.contains('seleccionado')) {
+            divServicio.classList.add('seleccionado');
+        }else {
+            divServicio.classList.remove('seleccionado');
+        }
+    }else {
+        // Eliminarlo
+        cita.servicios = servicios.filter(agregado => agregado.id !== id)
+    
+        if(!divServicio.classList.contains('seleccionado')) {
+            divServicio.classList.add('seleccionado');
+        }else {
+            divServicio.classList.remove('seleccionado');
+        }
+    }
+
+    console.log(cita);
 }
