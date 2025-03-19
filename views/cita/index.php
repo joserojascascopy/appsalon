@@ -1,6 +1,5 @@
 <h1 class="title">Crear Nueva Cita</h1>
 <p class="descripcion">Elige tus servicios y completa con tus datos</p>
-
 <div id="app">
     <nav class="tabs">
         <button class="actual" type="button" data-paso="1">Servicios</button> <!-- "data-paso" es un atributo personalizado -->
@@ -28,6 +27,7 @@
                 <label for="hora">Hora</label>
                 <input type="time" id="hora">
             </div>
+            <div class="alertas"></div>
         </form>
     </div>
     <div id="paso-3" class="seccion">

@@ -20,6 +20,9 @@ function iniciarApp() {
     paginaAnterior();
     
     consultarAPI();
+
+    nombreCliente(); // Asigna el nombre del cliente al objeto de cita
+    seleccionarFecha() // Asigna la fecha de la cita al objeto de cita
 }
 
 function tabs() {
@@ -186,6 +189,41 @@ function seleccionarServicio(servicio) {
     
         divServicio.classList.remove('seleccionado');
     }
+}
 
-    console.log(cita);
+function nombreCliente() {
+    const nombreCliente = document.querySelector('#nombre').value;
+
+    cita.nombre = nombreCliente;
+}
+
+function seleccionarFecha() {
+    const inputFecha = document.querySelector('#fecha');
+    inputFecha.addEventListener('input', function(e) {
+        const dia = new Date(e.target.value).getUTCDay();
+        
+        if(dia == 0 || dia == 6) {
+            e.target.value = '';
+
+            mostrarAlerta('Fines de semana no permito', 'error');
+        }else {
+            cita.fecha = e.target.value;
+        }
+
+        console.log(cita);
+    })
+}
+
+function mostrarAlerta(mensaje, tipo) {
+    const alerta = document.createElement('DIV');
+    alerta.classList.add(`${tipo}`);
+    alerta.classList.add('alerta');
+    alerta.textContent = mensaje;
+
+    const alertas = document.querySelector('.alertas');
+    alertas.appendChild(alerta);
+
+    setTimeout(() => {
+        alerta.remove(); // alerta.remove(); es un método de JavaScript que elimina un elemento del DOM.
+    }, 3000)
 }
