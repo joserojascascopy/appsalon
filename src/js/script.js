@@ -178,20 +178,13 @@ function seleccionarServicio(servicio) {
         // Agregarlo
         cita.servicios = [...servicios, servicio];
     
-        if(!divServicio.classList.contains('seleccionado')) {
-            divServicio.classList.add('seleccionado');
-        }else {
-            divServicio.classList.remove('seleccionado');
-        }
+        divServicio.classList.add('seleccionado');
+    
     }else {
         // Eliminarlo
         cita.servicios = servicios.filter(agregado => agregado.id !== id)
     
-        if(!divServicio.classList.contains('seleccionado')) {
-            divServicio.classList.add('seleccionado');
-        }else {
-            divServicio.classList.remove('seleccionado');
-        }
+        divServicio.classList.remove('seleccionado');
     }
 
     console.log(cita);
