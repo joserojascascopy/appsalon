@@ -22,7 +22,10 @@ function iniciarApp() {
     consultarAPI();
 
     nombreCliente(); // Asigna el nombre del cliente al objeto de cita
-    seleccionarFecha() // Asigna la fecha de la cita al objeto de cita
+    seleccionarFecha(); // Asigna la fecha de la cita al objeto de cita
+    seleccionarHora(); // Asigna la hora de la cita al objeto de cita
+    
+    // mostrarResumen(); // Muestra el resumen de la cita
 }
 
 function tabs() {
@@ -98,6 +101,8 @@ function paginador() {
     }else if(paso === 3) {
         anterior.classList.remove('ocultar');
         siguiente.classList.add('ocultar')
+
+        mostrarResumen();
     }else {
         siguiente.classList.remove('ocultar');
         anterior.classList.remove('ocultar');
@@ -205,25 +210,100 @@ function seleccionarFecha() {
         if(dia == 0 || dia == 6) {
             e.target.value = '';
 
-            mostrarAlerta('Fines de semana no permito', 'error');
+            mostrarAlerta('Fines de semana no permito', 'error', 'alertas');
         }else {
             cita.fecha = e.target.value;
         }
-
-        console.log(cita);
     })
 }
 
-function mostrarAlerta(mensaje, tipo) {
+function seleccionarHora() {
+    const inputHora = document.querySelector('#hora');
+    inputHora.addEventListener('input', function(e) {
+        const horaCita = e.target.value;
+        const hora = horaCita.split(":")[0]; // Nos permite seprar una cadena de texto, en este caso nos devuelve un array con dos elementos
+        
+        if(hora < 8 || hora >= 20) {
+            e.target.value = '';
+            mostrarAlerta('Horario No Válida', 'error', 'alertas');
+        }else {
+            cita.hora = e.target.value;
+        }
+    })
+}
+
+function mostrarAlerta(mensaje, tipo, elemento, desaparece = true) {
+    // Evita la creacion de varias alertas
+    const alertaPrevia = document.querySelector('.alerta');
+    
+    if(alertaPrevia) {
+        alertaPrevia.remove();
+    }
+
+    // Si no hay alertaPrevia, se crea la alerta
     const alerta = document.createElement('DIV');
     alerta.classList.add(`${tipo}`);
     alerta.classList.add('alerta');
     alerta.textContent = mensaje;
 
-    const alertas = document.querySelector('.alertas');
-    alertas.appendChild(alerta);
+    const referencia = document.querySelector(`.${elemento}`);
+    referencia.appendChild(alerta);
 
-    setTimeout(() => {
-        alerta.remove(); // alerta.remove(); es un método de JavaScript que elimina un elemento del DOM.
-    }, 3000)
+    // Se elimina la alerta luego de los 3000ms
+    if(desaparece) {
+        setTimeout(() => {
+            alerta.remove(); // alerta.remove(); es un método de JavaScript que elimina un elemento del DOM.
+        }, 3000)
+    }
+}
+
+function mostrarResumen() {
+    const resumen = document.querySelector('.contenido-resumen');
+
+    if(Object.values(cita).includes('') || cita.servicios.length === 0) { // Object.values, metodo especificos para objetos, itera sobre el objeto que se le pasa como argumento
+        mostrarAlerta('Debes completar todos los datos', 'error', 'alerta-resumen', false);
+
+        return;
+    }
+
+    // Eliminar la alerta dentro de resumen, se le paso false al parametro de "desaparece"
+    const alertaAnterior = document.querySelector('.alerta');
+
+    if(alertaAnterior) {
+        alertaAnterior.remove();
+    }
+
+    const {nombre, fecha, hora, servicios} = cita;
+
+    const nombreCliente = document.createElement('P');
+    nombreCliente.innerHTML = `<span>Nombre:</span> ${nombre}`;
+
+    const fechaCita = document.createElement('P');
+    fechaCita.innerHTML = `<span>Fecha:</span> ${fecha}`;
+
+    const horaCita = document.createElement('P');
+    horaCita.innerHTML = `<span>Hora:</span> ${hora}`;
+
+    resumen.appendChild(nombreCliente);
+    resumen.appendChild(fechaCita);
+    resumen.appendChild(horaCita);
+
+    const contenedorServicios = document.createElement('DIV');
+    contenedorServicios.classList.add('contenedor-servicios');
+    contenedorServicios.innerHTML = '<p>Servicios:</p>';
+    resumen.appendChild(contenedorServicios);
+
+    servicios.forEach(servicio => {
+        const contenedorServicio = document.createElement('DIV');
+        contenedorServicio.classList.add('contenedor-servicio');
+        contenedorServicios.appendChild(contenedorServicio);
+
+        const servicioCita = document.createElement('P');
+        servicioCita.innerHTML = `${servicio.nombre}`;
+        contenedorServicio.appendChild(servicioCita);
+
+        const precioCita = document.createElement('P');
+        precioCita.innerHTML = `$${servicio.precio}`;
+        contenedorServicio.appendChild(precioCita)
+    })
 }
