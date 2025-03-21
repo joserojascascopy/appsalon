@@ -260,6 +260,11 @@ function mostrarAlerta(mensaje, tipo, elemento, desaparece = true) {
 function mostrarResumen() {
     const resumen = document.querySelector('.contenido-resumen');
 
+    // Limpiar el Contenido de Resumen (Si vuelve a servicios y desmarca o marca un servicios mas, elimina el resumen anterior)
+    while(resumen.firstChild) {
+        resumen.removeChild(resumen.firstChild);
+    }
+
     if(Object.values(cita).includes('') || cita.servicios.length === 0) { // Object.values, metodo especificos para objetos, itera sobre el objeto que se le pasa como argumento
         mostrarAlerta('Debes completar todos los datos', 'error', 'alerta-resumen', false);
 
@@ -278,11 +283,21 @@ function mostrarResumen() {
     const nombreCliente = document.createElement('P');
     nombreCliente.innerHTML = `<span>Nombre:</span> ${nombre}`;
 
+    // Formatear fecha
+    const fechaObject = new Date(fecha);
+    const mes = fechaObject.getMonth();
+    const dia = fechaObject.getDate() + 2;
+    const year = fechaObject.getFullYear();
+
+    const fechaUTC = new Date(Date.UTC(year, mes, dia));
+    const opciones = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
+    const fechaFormateada = fechaUTC.toLocaleDateString('es-MX', opciones);
+
     const fechaCita = document.createElement('P');
-    fechaCita.innerHTML = `<span>Fecha:</span> ${fecha}`;
+    fechaCita.innerHTML = `<span>Fecha:</span> ${fechaFormateada}`;
 
     const horaCita = document.createElement('P');
-    horaCita.innerHTML = `<span>Hora:</span> ${hora}`;
+    horaCita.innerHTML = `<span>Hora:</span> ${hora} hs.`;
 
     resumen.appendChild(nombreCliente);
     resumen.appendChild(fechaCita);
@@ -290,7 +305,7 @@ function mostrarResumen() {
 
     const contenedorServicios = document.createElement('DIV');
     contenedorServicios.classList.add('contenedor-servicios');
-    contenedorServicios.innerHTML = '<p>Servicios:</p>';
+    contenedorServicios.innerHTML = '<p class="titulo-servicios">Resumen servicios:</p>';
     resumen.appendChild(contenedorServicios);
 
     servicios.forEach(servicio => {
@@ -303,7 +318,21 @@ function mostrarResumen() {
         contenedorServicio.appendChild(servicioCita);
 
         const precioCita = document.createElement('P');
-        precioCita.innerHTML = `$${servicio.precio}`;
+        precioCita.innerHTML = `<span>Precio: </span>$${servicio.precio}`;
         contenedorServicio.appendChild(precioCita)
     })
+
+    // Boton para guardar la cita
+
+    const btnReservar = document.createElement('BUTTON');
+    btnReservar.classList.add('boton');
+    btnReservar.classList.add('boton-centrar');
+    btnReservar.textContent = 'Reservar Cita';
+    btnReservar.onclick = reservarCita;
+
+    resumen.appendChild(btnReservar);
+}
+
+function reservarCita() {
+    
 }

@@ -1,0 +1,31 @@
+@use 'base/variables' as v;
+
+.contenido-resumen {
+
+    span {
+        color: v.$azul;
+        font-weight: bold;
+        font-size: 2.4rem;
+    }
+}
+
+.contenedor-servicios {
+    .titulo-servicios {
+        text-align: center;
+        color: v.$azul;
+        font-weight: bold;
+        font-size: 2.4rem;
+    }
+
+    .contenedor-servicio {
+        border-bottom: 1px solid v.$gris;
+    }
+
+    &:last-of-type {
+        margin-bottom: 3rem;
+    }
+}
+
+.boton-centrar {
+    margin: 0 auto;
+}
