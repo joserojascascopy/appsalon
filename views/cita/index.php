@@ -28,11 +28,13 @@
                 <input type="time" id="hora">
             </div>
             <div class="alertas"></div>
+            <input type="hidden" id="id" value="<?php echo $id; ?>">
         </form>
     </div>
-    <div id="paso-3" class="seccion contenido-resumen">
+    <div id="paso-3" class="seccion">
         <h2>Resumen</h2>
         <p class="text-center">Verifica que la informacion sea correcta</p>
+        <div class="contenido-resumen"></div>
         <div class="alerta-resumen"></div>
     </div>
     <div class="paginacion">

@@ -3,6 +3,7 @@ const pasoInicial = 1;
 const pasoFinal = 3;
 
 const cita = {
+    id: '',
     nombre: '',
     fecha: '',
     hora: '',
@@ -21,6 +22,7 @@ function iniciarApp() {
     
     consultarAPI();
 
+    idCliente(); // Asigna el id del cliente al objeto de cita
     nombreCliente(); // Asigna el nombre del cliente al objeto de cita
     seleccionarFecha(); // Asigna la fecha de la cita al objeto de cita
     seleccionarHora(); // Asigna la hora de la cita al objeto de cita
@@ -202,6 +204,12 @@ function nombreCliente() {
     cita.nombre = nombreCliente;
 }
 
+function idCliente() {
+    const idCliente = document.querySelector('#id').value;
+
+    cita.id = idCliente;
+}
+
 function seleccionarFecha() {
     const inputFecha = document.querySelector('#fecha');
     inputFecha.addEventListener('input', function(e) {
@@ -210,7 +218,7 @@ function seleccionarFecha() {
         if(dia == 0 || dia == 6) {
             e.target.value = '';
 
-            mostrarAlerta('Fines de semana no permito', 'error', 'alertas');
+            mostrarAlerta('Fines de semana no permitido', 'error', 'alertas');
         }else {
             cita.fecha = e.target.value;
         }
@@ -333,6 +341,29 @@ function mostrarResumen() {
     resumen.appendChild(btnReservar);
 }
 
-function reservarCita() {
-    
+async function reservarCita() {
+    const {fecha, hora, id, servicios} = cita;
+
+    const idServicios = servicios.map(servicio => servicio.id)
+
+    const datos = new FormData(); // Se crea el submit (objeto)
+
+    datos.append('fecha', fecha); // Agregamos los datos
+    datos.append('hora', hora);
+    datos.append('usuarioId', id)
+    datos.append('servicios', idServicios);
+
+    // Peticion hacia la API
+
+    const url = 'http://localhost:3000/api/citas'
+    const respuesta = await fetch(url, { // Objeto de configuracion
+        method: 'POST',
+        body: datos
+    })
+
+    const resultado = await respuesta.json();
+
+    console.log(resultado);
+
+    // console.log([...datos]);
 }
