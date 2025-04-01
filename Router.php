@@ -18,6 +18,17 @@ class Router {
         $urlActual = $_SERVER['PATH_INFO'] ?? '/';
         $metodo = $_SERVER['REQUEST_METHOD'];
 
+        // // Proteger las rutas
+        // session_start();
+        // // Arreglo de rutas protegidas
+        // $protectedRoutes = ['/cita'];
+
+        // $auth = $_SESSION['login'] ?? false;
+
+        // if(in_array($urlActual, $protectedRoutes) && !$auth) {
+        //     header('Location: /');
+        // }
+
         if($metodo === 'GET') {
             $funcion = $this->routesGET[$urlActual] ?? null;
         }else {
