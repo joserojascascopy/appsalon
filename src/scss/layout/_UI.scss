@@ -31,3 +31,20 @@
 .descripcion {
     text-align: center;
 }
+
+.barra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .boton {
+        background-color: v.$negro;
+
+        &:hover {
+            color: v.$negro;
+            background-color: v.$blanco;
+        }
+
+        width: 22rem;
+    }
+}
