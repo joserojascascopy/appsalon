@@ -2,13 +2,13 @@
 
 namespace Controllers;
 
-use Model\Servicio;
+use Model\Servicios;
 use Model\Cita;
 use Model\CitaServicio;
 
 class ApiController {
     public static function index() {
-        $servicios = Servicio::all();
+        $servicios = Servicios::all();
 
         echo json_encode($servicios);
     }

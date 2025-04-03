@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class Servicio extends ActiveRecord {
+class Servicios extends ActiveRecord {
     // Base de datos
     protected static $tabla = 'servicios';
     protected static $columnasDB = ['id', 'nombre', 'precio'];

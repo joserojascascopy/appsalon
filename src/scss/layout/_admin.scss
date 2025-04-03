@@ -1,0 +1,39 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.citas {
+    list-style: none;
+    padding: 0;
+
+    li {
+        padding: 1rem;
+        border-top: 1px solid v.$blanco;
+
+        p {
+            font-weight: 700;
+            color: v.$azul;
+        }
+
+        span {
+            font-weight: 400;
+            color: v.$blanco;
+        }
+    }
+
+    .servicio {
+        font-weight: 400;
+        padding: 0 1rem;
+    }
+
+    .total {
+        text-align: center;
+        padding: 0 1rem;
+        font-weight: 700;
+        color: v.$azul;
+        
+        span {
+            font-weight: 400;
+            color: v.$blanco;
+        }
+    }
+}
