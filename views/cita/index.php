@@ -1,9 +1,6 @@
 <h1 class="title">Crear Nueva Cita</h1>
 <p class="descripcion">Elige tus servicios y completa con tus datos</p>
-<div class="barra">
-    <p>Hola: <?php echo $nombre; ?></p>
-    <a class="boton" href="/logout">Cerrar Sesión</a>
-</div>
+<?php include_once __DIR__ . '/../templates/barra.php'; ?>
 <div id="app">
     <nav class="tabs">
         <button class="actual" type="button" data-paso="1">Servicios</button> <!-- "data-paso" es un atributo personalizado -->
