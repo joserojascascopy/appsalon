@@ -47,3 +47,23 @@
 .boton-registrarse {
     display: inline-block;
 }
+
+.boton-eliminar {
+    background-color: v.$rojo;
+    border: none;
+    color: v.$blanco;
+    padding: 1.5rem 3.5rem;
+    transition-property: background-color;
+    transition-duration: .3s;
+    font-size: 2rem;
+    font-weight: bold;
+
+    display: block;
+    width: 100%;
+    text-align: center;
+
+    &:hover {
+        cursor: pointer;
+        background-color: color.adjust(v.$rojo, $lightness: -10%);
+    }
+}

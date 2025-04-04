@@ -36,4 +36,16 @@ class ApiController {
 
         echo json_encode(['resultado' => $resultado]);
     }
+
+    public static function eliminar() {
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+            // Traemos la cita desde la BD con el id a eliminar
+            $cita = Cita::find($id);
+            // Eliminamos la cita
+            $cita->eliminar();
+
+            header('Location:' . $_SERVER['HTTP_REFERER']);
+        }
+    }
 }
