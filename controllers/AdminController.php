@@ -11,7 +11,7 @@ class AdminController {
         isAuth();
 
         // Fecha del día
-        $fecha = date("Y-m-d H:i:s");
+        $fecha = date("Y-m-d");
 
         // Consultar la base de datos
         $consulta = "SELECT citas.id, citas.hora, CONCAT( usuarios.nombre, ' ', usuarios.apellido) as cliente, ";
@@ -23,15 +23,21 @@ class AdminController {
         $consulta .= " ON citasServicios.citaId=citas.id ";
         $consulta .= " LEFT OUTER JOIN servicios ";
         $consulta .= " ON servicios.id=citasServicios.servicioId ";
-        // $consulta .= " WHERE fecha =  '$fecha' ";
+        $consulta .= " WHERE fecha =  '$fecha' ";
 
         $citas = AdminCita::SQL($consulta);
 
-        debugger($citas);
+        $alertas = AdminCita::getAlertas();
+
+        if(empty($citas)) {
+            $alertas = AdminCita::setAlerta('error', 'No tienes citas para hoy');
+        }
 
         $router->render('admin/index', [
             'nombre' => $_SESSION['nombre'],
-            'citas' => $citas
+            'citas' => $citas,
+            'fecha' => $fecha,
+            'alertas' => $alertas
         ]);
     }
 }

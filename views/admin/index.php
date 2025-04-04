@@ -1,6 +1,7 @@
 <h1 class="title">Panel de Administrador</h1>
 <?php include_once __DIR__ . '/../templates/barra.php'; ?>
 <h3>Buscar Citas</h3>
+<?php // include_once __DIR__ . '/../templates/alertas.php'; ?>
 <div class="busqueda">
     <form class="formulario-container">
         <div class="campo">
@@ -9,6 +10,7 @@
                 type="date"
                 id="fecha"
                 name="fecha"
+                value="<?php echo $fecha; ?>"
             >
         </div>
     </form>
@@ -18,9 +20,10 @@
     <ul class="citas">
         <?php
         $idCita = 0;
-        $total = 0;
         foreach($citas as $key => $cita) : 
-            if($idCita !== $cita->id) { ?>
+            if($idCita !== $cita->id) { 
+                $total = 0;
+            ?>
                 <li>
                     <h3>Cita</h3>
                     <p>ID: <span><?php echo $cita->id; ?></span></p>
@@ -45,3 +48,7 @@
         <?php endforeach; ?>
     </ul>
 </div>
+
+<?php 
+    $script = "<script src='build/js/buscador.js'></script>";
+?>

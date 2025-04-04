@@ -17,7 +17,9 @@
         background-position: center center;
 
         @include m.tablet {
-            height: auto;
+            min-height: 100vh; // ocupa todo el alto del viewport (No utilizamos flex: 1; porque nuestro contenedor no es display: flex;)
+            // flex: 1;
+            // height: 100%;
         }
     }
 
@@ -25,6 +27,13 @@
         width: 95%;
         margin: 0 auto;
         padding: 3rem 0;
+
+        @include m.tablet {
+            // flex: 1;
+            height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
     }
 }
 
