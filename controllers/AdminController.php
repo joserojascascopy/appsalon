@@ -10,8 +10,16 @@ class AdminController {
         session_start();
         isAuth();
 
-        // Fecha del día
-        $fecha = date("Y-m-d");
+        $fecha = $_GET['fecha'] ?? date("Y-m-d");
+        $fechas = explode('-', $fecha);
+
+        $dia = $fechas[2];
+        $mes = $fechas[1];
+        $year = $fechas[0];
+
+        if(!checkdate($mes, $dia, $year)) {
+            header('Location: /404');
+        }
 
         // Consultar la base de datos
         $consulta = "SELECT citas.id, citas.hora, CONCAT( usuarios.nombre, ' ', usuarios.apellido) as cliente, ";

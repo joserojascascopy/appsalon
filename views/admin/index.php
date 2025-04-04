@@ -1,7 +1,7 @@
 <h1 class="title">Panel de Administrador</h1>
 <?php include_once __DIR__ . '/../templates/barra.php'; ?>
 <h3>Buscar Citas</h3>
-<?php // include_once __DIR__ . '/../templates/alertas.php'; ?>
+<?php include_once __DIR__ . '/../templates/alertas.php'; ?>
 <div class="busqueda">
     <form class="formulario-container">
         <div class="campo">
