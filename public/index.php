@@ -6,6 +6,7 @@ use Controllers\ApiController;
 use Controllers\LoginController;
 use Controllers\CitaController;
 use Controllers\AdminController;
+use Controllers\ServicioController;
 use MVC\Router;
 
 $router = new Router;
@@ -39,6 +40,14 @@ $router->get('/cita', [CitaController::class, 'index']);
 
 // Panel de Administrador
 $router->get('/admin', [AdminController::class, 'index']);
+
+// CRUD - Servicios
+$router->get('/servicios', [ServicioController::class, 'index']);
+$router->get('/servicios/crear', [ServicioController::class, 'crear']);
+$router->post('/servicios/crear', [ServicioController::class, 'crear']);
+$router->get('/servicios/actualizar', [ServicioController::class, 'actualizar']);
+$router->post('/servicios/actualizar', [ServicioController::class, 'actualizar']);
+$router->post('/servicios/eliminar', [ServicioController::class, 'eliminar']);
 
 // API de citas
 

@@ -67,3 +67,8 @@
         background-color: color.adjust(v.$rojo, $lightness: -10%);
     }
 }
+
+.botones-acciones {
+    display: flex;
+    justify-content: space-between;
+}

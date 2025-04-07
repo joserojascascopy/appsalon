@@ -36,3 +36,13 @@
         }
     }
 }
+
+.barra-servicios {
+    @include m.tablet {
+        display: flex;
+    }
+
+    a {
+        margin-bottom: 1rem;
+    }
+}
