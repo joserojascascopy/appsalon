@@ -46,3 +46,14 @@
         margin-bottom: 1rem;
     }
 }
+
+.servicios {
+    @extend .citas;
+
+    @include m.tablet {
+        .acciones {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
