@@ -25,7 +25,7 @@ class ActiveRecord {
     }
 
     public function guardar() {
-        if (isset($this->id) && !$this->id == '') {
+        if (isset($this->id) && $this->id !== '') {
             // Actualizar
             return $this->actualizar();
         } else {
